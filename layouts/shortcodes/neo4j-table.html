@@ -1,0 +1,61 @@
+
+<style>
+    #neo4j-table {
+        background: white;
+    }
+</style>
+
+<div id="neo4j-table"></div>
+
+<script>
+
+
+    function get_Table_Data() {
+        let records = neo.viz._records
+        let results = {}
+        for (i = 0; i < records.length; i++) {
+            for (j = 0; j < records[i].length; j++) {
+                key = records[i].keys[j]
+                value = records[i]._fields[j]
+                value = value ? value.toString() : value
+                if (results[key] === undefined) {
+                    results[key] = []
+                }
+                results[key].push(value)
+            }
+        }
+        return results
+    }
+
+    function create_Table() {
+        records = neo.viz._records
+
+        table_Data = get_Table_Data()
+        myTable = $('<table class="table table-responsive-sm table-sm"></table>')
+        if (records && records[0]) {
+            headers = $('<tr></tr>')
+            headers.append('<th>#</th>')
+            for (let key of records[0].keys) {
+                headers.append('<th>' + key + '</th>')
+            }
+            myTable.append(headers)
+
+
+            for (i = 0; i < records.length; i++) {
+                row = $('<tr></tr>')
+                row.append('<td>' + (i + 1) + '</td>')
+                for (var key in table_Data) {
+                    row.append('<td>' + table_Data[key][i] + '</td>')
+                }
+                myTable.append(row)
+            }
+        }
+        else
+        {
+            headers = $('<tr><th>query returned no data</th></tr>')
+            myTable.append(headers)
+        }
+        $('#neo4j-table').html(myTable)
+    }
+
+</script>

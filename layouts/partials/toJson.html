@@ -1,0 +1,18 @@
+{
+    {{- range $key,$value := .                             }}
+            "{{ $key }}" :
+    {{-     if eq (printf "%T" $value) "string"            }}
+    {{-        safeHTML (printf "\"%s\"" $value )          }}
+    {{-     else                                           }}
+    {{-         if eq (printf "%T" $value) "int"           }}
+    {{-             $value                                 }}
+    {{-         else if eq (printf "%T" $value) "float64"  }}
+    {{-                 $value                             }}
+    {{-         else if eq (printf "%T" $value) "bool"     }}
+    {{-                 $value                             }}
+    {{-         else                                       }}
+    {{-                 partial "toJson.html" $value       }}
+    {{-         end                                        }}
+    {{-     end                                            }},
+    {{- end                                             }}
+}

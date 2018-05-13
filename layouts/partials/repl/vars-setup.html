@@ -1,0 +1,17 @@
+{{ if  eq (printf "%T" .Params) "map[string]string"         }}
+    {{ .Scratch.Set "mode"   .Params.mode                   }}
+    {{ .Scratch.Set "height" .Params.height                 }}
+    {{ .Scratch.Set "height" .Params.height                 }}
+    {{ .Scratch.Set "show"   .Params.show                 }}
+{{ end}}
+
+{{ $mode   := default "CoffeeScript"  (.Scratch.Get "mode") }}
+{{ $height := default 150 (.Scratch.Get "height")           }}
+
+{{ $code_div   := (printf "repl_%d" (index (seq 1000 | shuffle) 0) ) }}
+{{ $result_div := (printf "repl_%d" (index (seq 1000 | shuffle) 0) ) }}
+
+{{ .Scratch.Set "mode"       $mode       }}
+{{ .Scratch.Set "height"     $height     }}
+{{ .Scratch.Set "code_div"   $code_div   }}
+{{ .Scratch.Set "result_div" $result_div }}
