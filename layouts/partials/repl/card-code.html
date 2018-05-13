@@ -1,0 +1,15 @@
+{{ $mode      := .Scratch.Get "mode"     }}
+{{ $code      := .Scratch.Get "code"     }}
+{{ $code_div  := .Scratch.Get "code_div" }}
+
+<div class="card border-primary " id="card-code">
+    <div class="card-header">
+        Code ({{$mode}})
+        <div class="card-actions bg-success">
+            <a href="#" class="btn-setting" onclick="exec_Code_{{safeJS $code_div}}()"><i class="icon-control-play"></i></a>
+        </div>
+    </div>
+    <div class="card-body">
+        <textarea id="code_{{$code_div}}">{{ $code }} </textarea>
+    </div>
+</div>

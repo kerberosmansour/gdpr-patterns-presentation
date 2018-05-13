@@ -1,0 +1,27 @@
+{{ define "content" }}
+
+    {{ $height := default 400 ( .Params.frame_height)}}
+    <style>
+        #action-target {
+            width     : 100%;
+            height    : {{safeJS $height }}px;
+            background: white;
+        }
+    </style>
+
+    <base target="action-target">
+
+    <h1>{{ .Params.title}}</h1>
+
+    <div class="row" id="neo4j-actions">
+        <div class="col-6">
+            {{ .Content}}
+        </div>
+        <div class="col-6">
+            <iframe name="action-target"
+                    id="action-target"></iframe>
+        </div>
+    </div>
+    <hr>
+    <a href="/" target="_self">Go to Home</a> (break IFrame target)
+{{ end }}

@@ -1,0 +1,33 @@
+
+{{ $neo4j_Url      := (default .Site.Data.neo4j_server.url      (getenv "Neo4J_Url"     )) }}
+{{ $neo4j_Username := (default .Site.Data.neo4j_server.username (getenv "Neo4J_Username")) }}
+{{ $neo4j_Password := (default .Site.Data.neo4j_server.password (getenv "Neo4J_Password")) }}
+
+<!--<script src="/api/js/neovis.js"></script>-->
+<script src="/js/neo4j/neovis.js"></script>
+
+<script>
+
+    var params_Data = {
+        cypher        : "{{ .Params.cypher }}",
+        labels        : {{ safeJS (partial "toJson.html" .Params.labels)        }},
+        relationships : {{ safeJS (partial "toJson.html" .Params.relationships) }},
+        options       : {
+                            gravitationalConstant: {{ safeJS (default "-800" .Params.gravity) }}
+                        },
+        hide_Graph    : "{{default false .Params.hide_graph}}"
+    }
+
+
+
+
+    let server_url      = "{{ $neo4j_Url      }}",
+        server_user     = "{{ $neo4j_Username }}",
+        server_password = "{{ $neo4j_Password }}",
+        container_id    = "viz";
+
+
+
+</script>
+
+<script src="/js/neo4j/neo4j-util.js"></script>
