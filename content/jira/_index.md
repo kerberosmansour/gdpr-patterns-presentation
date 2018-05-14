@@ -1,6 +1,6 @@
 ---
 title : Jira data
-#menu  : main
+menu  : main
 weight: 20
 ---
 

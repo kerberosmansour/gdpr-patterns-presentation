@@ -8,7 +8,12 @@
     var options = {
         lineNumbers: true,
         mode: "coffeescript",
+
         extraKeys: {
+            Tab: function(cm) {
+                var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
+                cm.replaceSelection(spaces);
+            },
             'Cmd-Enter': (cm) => {
                 exec_Code_{{safeJS $code_div}}()
             },

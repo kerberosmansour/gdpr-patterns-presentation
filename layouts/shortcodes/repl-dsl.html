@@ -1,0 +1,30 @@
+{{ $code := .Inner }}
+
+{{ partial "repl/code-and-result.html" . }}
+
+{{ $code_div   := .Scratch.Get "code_div"   }}
+{{ $result_div := .Scratch.Get "result_div" }}
+
+<script>
+    exec_Code_{{safeJS $code_div}} = function()
+    {
+        code = myCodeMirror_{{safeJS $code_div}}.getValue()
+        url = `/api/dsl/exec?code=${encodeURIComponent(code)}`
+
+        $.get(url, function (res, status)
+        {
+            if (typeof(res) === "object")
+                res = JSON.stringify(res,null,"   ")
+            $("#result_{{$result_div}}").html(res)
+            $('#cypher-query button').click()
+        })
+    }
+    update_Title_Text = function() {        // note, jQuery wasn't available at this point in time
+        for (item of document.querySelectorAll('#card-code .card-header #card-title')) {
+            item.innerHTML = 'Run server-side code'
+        }
+    }
+
+    update_Title_Text()
+
+</script>

@@ -5,9 +5,11 @@ height       : 350
 labels       :
 relationships:
 gravity      : -5000
-#menu         : main
+menu         : main
 weight       : 5
 ---
+
+write your own cypher queries
 
 examples: [first 10 relationships](?cypher=MATCH+(a)-[to]-(b)+%0areturn+*+%0aLimit+10) ,
 [db schema](?cypher=call db.schema()) ,
@@ -15,9 +17,7 @@ examples: [first 10 relationships](?cypher=MATCH+(a)-[to]-(b)+%0areturn+*+%0aLim
 
 ### Query
 {{< cypher-query height="80">}}
-MATCH (a)-[to]-(b) 
-return * 
-Limit 10
+
 {{</ cypher-query >}}
 
 

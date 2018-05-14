@@ -4,7 +4,7 @@ type         : neo4j
 height       : 630
 relationships:
 gravity      : -500
-#menu         : main
+menu         : main
 weight       : 5
 labels       :
     Vulnerability:
@@ -20,8 +20,7 @@ labels       :
 ---
 
 {{< cypher-query height="55">}}
-MATCH (a)-[to]-(b:Risk_Owner) where a.status = "Fixed" return *
-//MATCH (a)-[to]-(b:Risk_Owner) where a.status = "Risk Approved" return *
+MATCH (a)-[to]-(b) return * Limit 200
 {{</ cypher-query >}}
 
 <style>
@@ -40,6 +39,4 @@ MATCH (a)-[to]-(b:Risk_Owner) where a.status = "Fixed" return *
     $(function() {
         $('.app-footer').hide()
         });
-
-
 </script>

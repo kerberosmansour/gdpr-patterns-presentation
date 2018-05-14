@@ -3,7 +3,8 @@ title           = "GDPR Patterns"
 languageCode    = "en-uk"
 paginate        = "10"
 theme           = "coreui-hugo"
+testPing           = "testPong"
+
 
 [Params]
     ghrepo      = ""
-

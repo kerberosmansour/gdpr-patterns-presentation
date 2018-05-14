@@ -45,10 +45,12 @@ class neo4j_Util {
             self.show_RawData()
             self.setup_Events()
             self.fix_Nodes_Label_Witdh()
+            self.set_Nodes_Border()
 
             let options = {
                 nodes: {
                     shape: 'box',
+                    borderWidth: 1,
                 },
                 //interaction: { hover: true },
                 physics: {
@@ -66,7 +68,15 @@ class neo4j_Util {
 
 
     }
+    set_Nodes_Border() {
+        let nodes = neo.viz._network.body.data.nodes;
+        for( let id of Object.keys(nodes._data))
+        {
+            let node = nodes.get(id)
+            nodes.update({id:node.id, borderWidth: 0.3, color: { border: 'black'}})
+        }
 
+    }
     fix_Nodes_Label_Witdh() {
          function wordwrap ( str, width, brk, cut ) {
             brk = brk || '\n';

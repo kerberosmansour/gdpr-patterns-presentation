@@ -3,7 +3,7 @@ title     : View Jira Data
 type      : neo4j
 layout    : with-jira-view
 cypher    : MATCH (a)-[to]-(b) return * Limit 20
-#menu      : main
+menu      : main
 gravity   : -2000
 height    : 350
 weight    : 10
