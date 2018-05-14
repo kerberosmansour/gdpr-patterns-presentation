@@ -8,3 +8,4 @@ before_install:
   - cat .gitmodules
   - git submodule init
   - git submodule update
+  - pwd && ls
