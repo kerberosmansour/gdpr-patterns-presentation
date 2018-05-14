@@ -7,8 +7,7 @@
     4. Install hugo (https://gohugo.io/getting-started/installing/)
 
 ## Running
-    1. hugo serve 
-    2. 
+    1. hugo serve
 
 
 

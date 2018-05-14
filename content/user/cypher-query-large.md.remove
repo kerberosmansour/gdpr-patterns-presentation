@@ -4,7 +4,7 @@ type         : neo4j
 height       : 630
 relationships:
 gravity      : -500
-menu         : main
+#menu         : main
 weight       : 5
 labels       :
     Vulnerability:

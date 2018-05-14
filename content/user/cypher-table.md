@@ -3,7 +3,7 @@ title      : Cypher Table
 type       : neo4j
 height     : 350
 hide_graph : true
-menu       : main
+#menu       : main
 weight     : 7
 labels     :
 relationships:

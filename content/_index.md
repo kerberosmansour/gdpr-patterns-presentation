@@ -1,8 +1,10 @@
 ---
-title: home page
+title: GDPR Patterns
 ---
 
-This is the home page.
-
-
 The repo with this apps code is https://github.com/OWASP/gdpr-patterns/
+
+[User Space](/user/) 
+
+[Admin Space](/admin/)
+
