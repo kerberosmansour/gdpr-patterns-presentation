@@ -1,0 +1,10 @@
+language: html
+git:
+  submodules: false
+
+before_install:
+  - cat .gitmodules
+  - sed -ie 's/git@github.com:/https:\/\/github.com\//' .gitmodules
+  - cat .gitmodules
+  - git submodule init
+  - git submodule update
