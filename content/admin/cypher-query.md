@@ -5,7 +5,7 @@ height       : 350
 labels       :
 relationships:
 gravity      : -5000
-menu         : main
+#menu         : main
 weight       : 5
 ---
 
@@ -17,8 +17,9 @@ examples: [first 10 relationships](?cypher=MATCH+(a)-[to]-(b)+%0areturn+*+%0aLim
 
 ### Query
 {{< cypher-query height="80">}}
-
+MATCH (a)-[to]-(b) 
+return * 
+Limit 10
 {{</ cypher-query >}}
-
 
 ### Graph

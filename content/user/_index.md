@@ -1,7 +1,7 @@
 ---
-title  : Admin Space
+title  : User Space
 menu   : main
-weight : 20
+weight : 19
 ---
 
 Here are a number of helper pages
