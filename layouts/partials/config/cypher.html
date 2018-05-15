@@ -1,0 +1,68 @@
+{{ $height := .Scratch.Get "height"      }}
+{{ $width  := .Scratch.Get "width"       }}
+{{ $id     := .Scratch.Get "id"          }}
+{{ $cypher := .Scratch.Get "cypher"      }}
+{{ $layout := .Scratch.Get "layout"      }}
+{{ $title  := .Scratch.Get "title"      }}
+
+<div class="col" id="cypher-div">
+    {{ if $title }}
+    <h3>{{ $title }}</h3>
+    {{ end }}
+
+    <table style="width:100%; border: 1px solid black;">
+            <tr>
+              <th>Command</th>
+              <th>Payload</th> 
+            </tr>
+            <tr>
+              <td><button style="width:100%;" type="button" onclick="getEnv()">Get Environment variables</button></td>
+              <td><input style="width:100%;" id="input_data_env1"/></td> 
+            </tr>
+            <tr>
+                <td><button style="width:100%;" type="button" onclick="setEnv()">Set Environment variables</button></td>
+                <td><input style="width:100%;" id="input_data_env2" value="Jira_Protocol=https&Jira_Host=jira.photobox.com&Jira_Username=soti.sima@photobox.com&Jira_Password=test" /></td> 
+            </tr>
+    </table>
+
+    <br>
+    <br>
+    <h4 align="center">Result</h4>
+    <textarea id="results" style="width:100%;" rows="5">
+    </textarea>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script>
+    function getEnv(){
+			jQuery.ajax({
+			    url: '/api/admin/env',
+			    datatype: 'json',
+                contentType: "application/json; charset=utf-8",
+                type: 'get',
+			   	success: function(msg){
+			   		jQuery("#results").val(JSON.stringify(msg))
+				},
+				error: function(msg){
+                    jQuery("#results").val(JSON.stringify(msg))
+				}	
+			});
+    }
+
+    function setEnv(){
+
+			jQuery.ajax({
+			    url: '/api/admin/env?' + jQuery("#input_data_env2").val(),
+			    datatype: 'json',
+                contentType: "application/json; charset=utf-8",
+                type: 'post',
+			   	success: function(msg){
+			   		jQuery("#results").val(JSON.stringify(msg))
+				},
+				error: function(msg){
+                    jQuery("#results").val(JSON.stringify(msg))
+				}	
+			});
+    }
+</script>

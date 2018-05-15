@@ -1,0 +1,174 @@
+<!doctype html>
+<html>
+<head>
+    <title>Neovis.js Simple Example</title>
+    <!--<link rel="stylesheet" href="/css/fontawesome-4.7.0.css">-->
+
+    <!-- see https://fontawesome.com/v4.7.0/icons/ for icons -->
+    <style type="text/css">
+    html, body {
+        font: 16pt arial;
+    }
+
+    #viz {
+        width: 100%;
+        height: 550px;
+        border: 1px solid lightgray;
+        font: 22pt arial;
+    }
+</style>
+</head>
+<body onload="draw()">
+<h1>{{ .Params.title }}</h1>
+{{ .Content }}
+
+<h4>Cypher</h4>
+<textarea id='cypher'style="width:90%;height:50px">{{ .Params.cypher }} </textarea>
+
+<button onclick="run_query()">run</button>
+<div id="result">...</div>
+
+<h4>Graph</h4>
+<script >
+    var params_Data = {
+        cypher        : "{{ .Params.cypher }}",
+        labels        : {{ safeJS (partial "toJson.html" .Params.labels)        }},
+        relationships : {{ safeJS (partial "toJson.html" .Params.relationships) }},
+        options       : {
+            gravitationalConstant: {{ safeJS (default "-800" .Params.gravity) }}
+        }
+    }
+
+
+</script>
+
+
+
+<div id="viz"></div>
+<script src="/api/js/neovis.js"></script>
+<script type="text/javascript">
+    
+    var viz;
+    var root_Node_Id = '{{ .Params.root_Node}}'
+    var cypher       = params_Data.cypher
+
+    async function draw() {
+        var config = {
+            container_id: "viz",
+            server_url: "{{ .Site.Data.neo4j_server.url       }}",
+            server_user: "{{ .Site.Data.neo4j_server.user      }}",
+            server_password: "{{ .Site.Data.neo4j_server.password  }}",
+            labels: params_Data.labels,
+            relationships: params_Data.relationships,
+            initial_cypher: cypher
+        };
+
+        viz = new NeoVis.default(config);
+        viz.setup()
+        await viz.render_async()
+
+        options = {
+            nodes: {
+                shape: 'box'
+            },
+            edges: {
+                color: {color: "black"},
+                //length: 20,
+                physics: true
+            },
+            physics: {
+                barnesHut: {
+                    gravitationalConstant: params_Data.options.gravitationalConstant,
+                    //centralGravity : 0.5
+                }
+            }
+        }
+
+        viz._network.setOptions(options)
+
+//        viz._network.on("click", function (params) {
+//
+//            id = params.nodes[0]
+//            nodes = viz._network.body.data.nodes;
+//            node = nodes.get(id)
+//            console.log(node)
+//
+//        })
+        viz._network.on("doubleClick", function (params) {
+
+            id = params.nodes[0]
+            nodes = viz._network.body.data.nodes;
+            node = nodes.get(id)
+            console.log(node)
+            url = "https://jira.photobox.com/browse/" + node.key
+            //url = "/api/jira/issue/" + node.label + '?pretty'
+            console.log("going to open" + node.key)
+            window.open(url, '_blank');
+
+        })
+        nodes = viz._network.body.data.nodes;
+        edges = viz._network.body.data.edges;
+
+        document.getElementById("result").innerHTML = 'received ' + nodes.length + ' nodes and ' + edges.length + ' edges'
+        set_Root_Node(root_Node_Id)
+    }
+
+    function set_Root_Node(id)
+    {
+
+        match = nodes.get({
+            filter: function (item) {
+                return (item.label == id);
+            }
+        })
+        if (match.length === 1)
+        {
+            //console.log(match[0])
+            values = { _shape: 'circle', mass:10, font: { size: 20} , _color:'red', group:undefined }
+            values.id = match[0].id
+            nodes.update(values)
+        }
+        else
+        {
+            console.log('Error: Could not find Root Node: ' + id )
+        }
+    }
+
+    function run_query() {
+        cypher = document.getElementById("cypher").value
+        draw()
+    }
+//    function add_Extra_Nodes() {
+//
+//        add_Node = function (html) {
+//            var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="100">' +
+//                '  <rect x="0" y="0" width="100%" height="100%" fill="#C0C0C0" stroke-width="20" stroke="#ffffff" ></rect>' +
+//                '    <foreignObject x="15" y="10" width="100%" height="100%">' +
+//                '      <div xmlns="http://www.w3.org/1999/xhtml">' +
+//                html +
+//                '     </div>' +
+//                '  </foreignObject>' +
+//                '</svg>';
+//            var url = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg)
+//            nodes = viz._network.body.data.nodes;
+//            edges = viz._network.body.data.edges;
+//            node  = nodes.add({image: url, shape: 'image'})[0]
+//
+//            id_1 = Object.keys(nodes._data)[0]
+//            id_6 = Object.keys(nodes._data)[5]
+//            edges.add( {from : id_1  , to: node })
+//            edges.add( {from : id_6  , to: node })
+//
+//        }
+//
+//        add_Node('<h1 style="font-family: Arial">an H1 tag</h1>')
+//        add_Node('<table> ' +
+//            '<tr><th>col 1</th> <th>col 2</th></tr>' +
+//            '<tr><td>data 1</td> <td>data 2</td></tr>' +
+//            '<tr><td>data 3</td> <td>data 4</td></tr>' +
+//            '</table>')
+//    }
+//    setTimeout(add_Extra_Nodes, 500)
+</script>
+</body>
+</html>
