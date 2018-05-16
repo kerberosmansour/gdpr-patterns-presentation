@@ -17,20 +17,36 @@
             </tr>
             <tr>
               <td><button style="width:100%;" type="button" onclick="getEnv()">Get Environment variables</button></td>
-              <td><input style="width:100%;" id="input_data_env1"/></td> 
+              <td></td> 
             </tr>
             <tr>
                 <td><button style="width:100%;" type="button" onclick="setEnv()">Set Environment variables</button></td>
-                <td><input style="width:100%;" id="input_data_env2" value="Jira_Protocol=https&Jira_Host=jira.photobox.com&Jira_Username=soti.sima@photobox.com&Jira_Password=test" /></td> 
+                <td><input style="width:100%;" id="input_data_env2" value="Jira_Protocol=https&Jira_Host=jira.photobox.com&Jira_Username=soti.sima&Jira_Password=test" /></td> 
+            </tr>
+            <tr>
+                <td><button style="width:100%;" type="button" onclick="getCountfiles()">Count Files in DATA folder</button></td>
+                <td></td> 
+            </tr>
+            <tr>
+                <td><button style="width:100%;" type="button" onclick="getIssuesViaJQL_Async()">Pull down JIRA issues by JQL</button></td>
+                <td><input style="width:100%;" id="input_data_jql" value="project = GDPR OR project = RISK" /></td> 
+            </tr>
+            <tr>
+                <td><button style="width:100%;" type="button" onclick="deleteDataFolder()">Remove DATA folder</button></td>
+                <td></td> 
+            </tr>
+            <tr>
+                <td><button style="width:100%;" type="button" onclick="getIssuesViaCode()">Get specific Issue</button></td>
+                <td><input style="width:100%;" id="input_data_issue_id" value="GDPR-257" /></td> 
             </tr>
     </table>
 
     <br>
     <br>
     <h4 align="center">Result</h4>
-    <textarea id="results" style="width:100%;" rows="5">
+    <textarea id="results" style="width:100%;" rows="30">
     </textarea>
-
+    <!--http://localhost:3000/api/neo4j/delete/all?pretty-->
 </div>
 
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
@@ -42,7 +58,8 @@
                 contentType: "application/json; charset=utf-8",
                 type: 'get',
 			   	success: function(msg){
-			   		jQuery("#results").val(JSON.stringify(msg))
+                       str = JSON.stringify(msg, undefined, 4);
+                       jQuery("#results").val(str)
 				},
 				error: function(msg){
                     jQuery("#results").val(JSON.stringify(msg))
@@ -58,7 +75,72 @@
                 contentType: "application/json; charset=utf-8",
                 type: 'post',
 			   	success: function(msg){
-			   		jQuery("#results").val(JSON.stringify(msg))
+                    str = JSON.stringify(msg, undefined, 4);
+                    jQuery("#results").val(str)
+				},
+				error: function(msg){
+                    jQuery("#results").val(JSON.stringify(msg))
+				}	
+			});
+    }
+
+    function getCountfiles(){
+			jQuery.ajax({
+			    url: '/api/admin/countfiles',
+			    datatype: 'json',
+                contentType: "application/json; charset=utf-8",
+                type: 'get',
+			   	success: function(msg){
+                    str = JSON.stringify(msg, undefined, 4);
+                    jQuery("#results").val(str)
+				},
+				error: function(msg){
+                    jQuery("#results").val(JSON.stringify(msg))
+				}	
+			});
+    }
+
+    function getIssuesViaJQL_Async(){
+			jQuery.ajax({
+			    url: '/api/jira-server/all_issues?jql=' + jQuery("#input_data_jql").val(),
+			    datatype: 'json',
+                contentType: "application/json; charset=utf-8",
+                type: 'get',
+			   	success: function(msg){
+                    str = JSON.stringify(msg, undefined, 4);
+                    jQuery("#results").val(str)
+				},
+				error: function(msg){
+                    jQuery("#results").val(JSON.stringify(msg))
+				}	
+			});
+    }
+
+    function getIssuesViaCode(){
+			jQuery.ajax({
+			    url: '/api/jira-server/issue/' + jQuery("#input_data_issue_id").val(),
+			    datatype: 'json',
+                contentType: "application/json; charset=utf-8",
+                type: 'get',
+			   	success: function(msg){
+                    str = JSON.stringify(msg, undefined, 4);
+                    jQuery("#results").val(str)
+				},
+				error: function(msg){
+                    jQuery("#results").val(JSON.stringify(msg))
+				}	
+			});
+    }
+
+    function deleteDataFolder(){
+			jQuery.ajax({
+			    url: '/api/admin/datafolder',
+			    datatype: 'json',
+                contentType: "application/json; charset=utf-8",
+                type: 'delete',
+			   	success: function(msg){
+                    str = JSON.stringify(msg, undefined, 4);
+                    jQuery("#results").val(str)
 				},
 				error: function(msg){
                     jQuery("#results").val(JSON.stringify(msg))
