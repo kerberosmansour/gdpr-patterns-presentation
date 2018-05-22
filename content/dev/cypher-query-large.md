@@ -5,7 +5,7 @@ height       : 630
 relationships:
 gravity      : -500
 #menu         : main
-weight       : 5
+weight       : 2
 labels       :
     Vulnerability:
         caption: key
