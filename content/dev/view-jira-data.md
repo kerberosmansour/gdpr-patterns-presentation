@@ -15,6 +15,7 @@ labels    :
         caption: key
     Data_Journey:
         caption: key
+        label: 3
     Security_Controls:
         caption: key
     ISSUE:
