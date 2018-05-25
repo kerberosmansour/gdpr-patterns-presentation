@@ -3,9 +3,9 @@ title        : Cypher Query Large
 type         : neo4j
 height       : 630
 relationships:
-gravity      : -500
+gravity      : -2000
 #menu         : main
-weight       : 2
+weight       : 3
 labels       :
     Vulnerability:
         caption: key
@@ -20,12 +20,13 @@ labels       :
 ---
 
 {{< cypher-query height="55">}}
-MATCH (a)-[to]-(b) return * Limit 200
+MATCH (a {key:'GDPR-507'})-[to:Data_touches|:Data_sources|:relates_to]-(b)-[r:Has_VULN]-(c)-[z:is_child_of]-(d)
+return * 
 {{</ cypher-query >}}
 
 <style>
     body             { background-color: white    }
-    #cypher-query    { padding: 5px ; margin: 0px }
+    #cypher-query    { padding: 0px ; margin: 0px }
     h2               { display: none  !important  }
 </style>
 
