@@ -6,7 +6,7 @@ labels       :
 relationships:
 gravity      : -5000
 #menu         : main
-weight       : 5
+weight       : 4
 ---
 
 examples: 

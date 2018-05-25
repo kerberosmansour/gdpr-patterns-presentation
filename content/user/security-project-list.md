@@ -4,7 +4,7 @@ type       : neo4j
 height     : 350
 hide_graph : true
 #menu       : main
-weight     : 7
+weight     : 3
 labels     :
 relationships:
 ---
