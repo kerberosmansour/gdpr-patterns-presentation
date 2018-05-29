@@ -20,24 +20,20 @@
               <td></td> 
             </tr>
             <tr>
-                <td><button style="width:100%;" type="button" onclick="setEnv()">Set Environment variables</button></td>
-                <td><input style="width:100%;" id="input_data_env2" value="Jira_Protocol=https&Jira_Host=jira.photobox.com&Jira_Username=soti.sima&Jira_Password=test" /></td> 
-            </tr>
-            <tr>
                 <td><button style="width:100%;" type="button" onclick="getCountfiles()">Count Files in DATA folder</button></td>
                 <td></td> 
-            </tr>
-            <tr>
-                <td><button style="width:100%;" type="button" onclick="getIssuesViaJQL_Async()">Pull down JIRA issues by JQL</button></td>
-                <td><input style="width:100%;" id="input_data_jql" value="project=GDPR  or project = TM OR project = SEC or project = RISK or project = VULN " /></td> 
             </tr>
             <tr>
                 <td><button style="width:100%;" type="button" onclick="deleteDataFolder()">Remove DATA folder</button></td>
                 <td></td> 
             </tr>
             <tr>
-                <td><button style="width:100%;" type="button" onclick="getIssuesViaCode()">Get specific Issue</button></td>
-                <td><input style="width:100%;" id="input_data_issue_id" value="GDPR-257" /></td> 
+                <td><button style="width:100%;" type="button" onclick="gitclone()">Git Clone</button></td>
+                <td></td> 
+            </tr>
+            <tr>
+                <td><button style="width:100%;" type="button" onclick="gitpull()">Git Pull</button></td>
+                <td></td> 
             </tr>
     </table>
 
@@ -67,13 +63,13 @@
 			});
     }
 
-    function setEnv(){
-
+    function gitclone(){
+            jQuery("#results").val("loading...")
 			jQuery.ajax({
-			    url: '/api/admin/env?' + jQuery("#input_data_env2").val(),
+			    url: '/api/admin/git/clone',
 			    datatype: 'json',
                 contentType: "application/json; charset=utf-8",
-                type: 'post',
+                type: 'get',
 			   	success: function(msg){
                     str = JSON.stringify(msg, undefined, 4);
                     jQuery("#results").val(str)
@@ -82,6 +78,22 @@
                     jQuery("#results").val(JSON.stringify(msg))
 				}	
 			});
+    }
+    function gitpull(){
+        jQuery("#results").val("loading...")
+        jQuery.ajax({
+            url: '/api/admin/git/pull',
+            datatype: 'json',
+            contentType: "application/json; charset=utf-8",
+            type: 'get',
+            success: function(msg){
+                str = JSON.stringify(msg, undefined, 4);
+                jQuery("#results").val(str)
+            },
+            error: function(msg){
+                jQuery("#results").val(JSON.stringify(msg))
+            }	
+        });
     }
 
     function getCountfiles(){
