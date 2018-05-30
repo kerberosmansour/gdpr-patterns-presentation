@@ -47,9 +47,11 @@
                 svg_div.html("");
                 var svg = Viz(dot_lang, "svg");
                 svg_div.html(svg);
+            }else{
+                svg_div.html("");
             }
         }catch(e){
-            
+            svg_div.html("");
         }
     }
 
