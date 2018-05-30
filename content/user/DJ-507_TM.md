@@ -1,11 +1,13 @@
 ---
-title        : Data Journay 507
+title        : Data Journey 507 with Threat Modeling
 type         : neo4j
 height       : 800
 labels       :
 relationships:
 gravity      : -1000
 #menu         : main
+layout    : for-tm
+
 weight       : 2
 labels    :
     RISK:

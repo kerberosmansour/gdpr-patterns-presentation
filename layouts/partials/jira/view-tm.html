@@ -6,10 +6,15 @@
     var jira_fields = {{ safeJS (partial "toJson-from-array.html" .Params.jira_fields) }}
 </script>
 
+<script src="http://viz-js.com/js/ace/ace.js"></script>
+<script src="http://viz-js.com/bower_components/viz.js/viz.js"></script>
+<script src="http://viz-js.com/bower_components/fabric.js/dist/fabric.min.js"></script>
+<script src="http://viz-js.com/bower_components/Split.js/split.min.js"></script>
+<script src="http://viz-js.com/bower_components/svg-pan-zoom/dist/svg-pan-zoom.min.js"></script>
+
 
 <style>
     #issue-data {
-        background-color: white;
         height : 100%;
     }
 </style>
@@ -26,13 +31,28 @@
             process_Id(node.key)
         }
     }
-    function process_Id(id)
-    {
+    function process_Id(id){
         url = "/api/jira/issue/" + id
         $.getJSON(url, function(data) {
+            create_DataJ(data)
             create_Table(data)
         })
     }
+    function create_DataJ(data){
+        try{
+            if(data["Data Flow Dot Lang Source"]){
+                dot_lang = data["Data Flow Dot Lang Source"]
+                var svg_div = jQuery('#graphviz_svg_div');
+                var table_div = jQuery('#issue-data')
+                svg_div.html("");
+                var svg = Viz(dot_lang, "svg");
+                svg_div.html(svg);
+            }
+        }catch(e){
+            
+        }
+    }
+
     function create_Table(data){
 
         table = $('<table class="table table-responsive-sm table-sm">')
@@ -44,7 +64,13 @@
                 value = data[key] ? data[key] : ""
                 value = apply_Filter(key,value)
                 row = $('<tr><th>' + key + '</th><td>'+ value +'</d></tr>')
-                table.append(row)
+                console.log(key)
+                if(key==="Data Flow Dot Lang Source" || key==="Linked Issues"){
+
+                }else{
+                    table.append(row)
+                }
+               
             }
         }
         else
@@ -54,16 +80,20 @@
                 value = data[key]
                 value = apply_Filter(key,value)
                 row = $('<tr><th>' + key + '</th><td>'+ value +'</d></tr>')
-                table.append(row)
+                console.log(key)
+                if(key==="Data Flow Dot Lang Source" || key==="Linked Issues"){
+
+                }else{
+                    table.append(row)
+                }
+                
             }
 
         _data = data
         $('#issue-data').html(table)
     }
 
-    
-    function apply_Filter(key, value)
-    {
+    function apply_Filter(key, value){
         jira_link = "https://jira.photobox.com/browse/"
         if (key === 'key')
             return "<a href=" + jira_link + value +" target='_blank'>" + value + "</a>"
@@ -75,8 +105,7 @@
         }
         return value
     }
-    function get_Query_from_Url()
-    {
+    function get_Query_from_Url(){
         $.urlParam = function (name) {
             var results = new RegExp('[\?&]' + name + '=([^&#]*)')
                 .exec(window.location.search);
@@ -94,4 +123,3 @@
 </script>
 
 <div id="issue-data"></div>
-

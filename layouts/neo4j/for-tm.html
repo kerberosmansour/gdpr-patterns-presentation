@@ -1,0 +1,31 @@
+{{ define "content" }}
+    {{ .Scratch.Set "cypher" .Params.cypher             }}
+    {{ .Scratch.Set "id"     (default "viz" .Params.id) }}
+    {{ .Scratch.Set "width"  .Params.width              }}
+    {{ .Scratch.Set "height" .Params.height             }}
+    {{ .Scratch.Set "layout" .Params.layout             }}
+
+    <style>
+        #repl-visjs .badge {font-size:10px }
+    </style>
+
+    <h2> {{ .Params.title }}</h2>
+    {{ .Content }}
+
+    <div class="row" id="repl-visjs">
+        <div class="col-8" class="display:none">
+                
+            <table class="table table-responsive-sm table-sm">
+                <tr><td><span  id="issue_labels" ></span> - <span  id="issue_summary"></span></td></tr>
+            </table>
+            
+            {{ partial "neo4j/cypher.html"       . }}
+
+            <div id="graphviz_svg_div">...</div>
+        </div>
+        <div class="col-4">
+            {{ partial "jira/view-tm.html" . }}
+        </div>
+    </div>
+
+{{ end }}
