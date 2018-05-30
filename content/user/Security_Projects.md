@@ -1,10 +1,10 @@
 ---
-title        : Data Journay 507
+title        : Security Programs
 type         : neo4j
 height       : 800
 labels       :
 relationships:
-gravity      : -3000
+gravity      : -800
 #menu         : main
 weight       : 2
 labels    :
@@ -20,13 +20,16 @@ labels    :
     Security_Controls:
         caption: summary
         image:  https://www.mediware.com/wp-content/uploads/Untitled-1-300x300.png
-    ISSUE:
-        caption: key
+    Project:
+        caption: key1
+        color: "#1E90FF"
     IT_System:
         caption: summary
         image: https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Gnome-emblem-system.svg/2000px-Gnome-emblem-system.svg.png
-    Task:
-        caption: key
+    Programme:
+        caption: summary
+        #shape: square
+        color: "#32CD32"
     Vulnerability:
         caption: key
         image: https://www.iconshock.com/image/Impressions/Security/vulnerability
@@ -39,24 +42,24 @@ labels    :
         caption: key
 
 relationships:
-    Data_touches:
+    is_fixed_by:
         arrow: true
         label:
-    Has_VULN:
-        arrow: true
+    is_parent_of:
+        arrow: false
         label:
-    Has_RISK:
-        arrow: true
+    is_child_of:
+        arrow: false
         label:
-    Is_missing:
-        arrow: true
+    relates_to:
+        arrow: false
         label: 
 ---
  
 
 {{< cypher-query height="80">}}
-MATCH (a {key:'GDPR-507'})-[to:Data_touches|:Data_sources|:relates_to]-(b)-[r:Has_VULN]-(c)-[z:Has_RISK|:Is_missing]-(d)
-WHERE a.summary is not null
-return * 
-Limit 5000
+MATCH (a:Project)-[to]-(b:Programme)
+where a.summary is not null and b.summary is not null and b.status<>'Done' and a.status<>'Done'
+RETURN *
+LIMIT 300
 {{</ cypher-query >}}
