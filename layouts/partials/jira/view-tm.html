@@ -40,20 +40,45 @@
     }
     function create_DataJ(data){
         try{
-            if(data["Data Flow Dot Lang Source"]){
+            if(Data["Data Flow Dot Lang Source"]){
                 dot_lang = data["Data Flow Dot Lang Source"]
                 var svg_div = jQuery('#graphviz_svg_div');
                 var table_div = jQuery('#issue-data')
                 svg_div.html("");
                 var svg = Viz(dot_lang, "svg");
                 svg_div.html(svg);
+                return
             }else{
                 svg_div.html("");
             }
         }catch(e){
-            //svg_div.html("");
+            console.log('No Dot field')
             jQuery('#graphviz_svg_div').html("");
         }
+
+        try{
+            if(data["Description"]){
+                
+                dot_lang = data["Description"]
+                isDot = dot_lang.includes("digraph")
+
+                if(isDot){
+                    dot_lang = dot_lang.replace("{code}","")
+                    dot_lang = dot_lang.replace("{code}","")
+                    var svg_div = jQuery('#graphviz_svg_div');
+                    var table_div = jQuery('#issue-data')
+                    svg_div.html("");
+                    var svg = Viz(dot_lang, "svg");
+                    svg_div.html(svg);
+                }
+            }else{
+                svg_div.html("");
+            }
+        }catch(e){
+            console.log('oops2')
+            jQuery('#graphviz_svg_div').html("");
+        }
+
     }
 
     function create_Table(data){
@@ -67,7 +92,6 @@
                 value = data[key] ? data[key] : ""
                 value = apply_Filter(key,value)
                 row = $('<tr><th>' + key + '</th><td>'+ value +'</d></tr>')
-                console.log(key)
                 if(key==="Data Flow Dot Lang Source" || key==="Linked Issues"){
 
                 }else{
@@ -83,7 +107,7 @@
                 value = data[key]
                 value = apply_Filter(key,value)
                 row = $('<tr><th>' + key + '</th><td>'+ value +'</d></tr>')
-                console.log(key)
+                //console.log(key)
                 if(key==="Data Flow Dot Lang Source" || key==="Linked Issues"){
 
                 }else{
