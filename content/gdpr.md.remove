@@ -7,7 +7,7 @@ layout    : simple
 #cypher   : MATCH (n {key:'RISK-235'}) MATCH path = (n)-[:is_child_of*1..5]-(v:RISK) return path
 cypher    : MATCH (n {key:'GDPR-261'}) MATCH path = (n)-[m*1..2]-(v) return path
 root_Node : GDPR-261
-gravity   : -1500
+gravity   : -1400
 labels  :
     ISSUE:
         caption: key
