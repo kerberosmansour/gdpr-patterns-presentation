@@ -18,7 +18,6 @@ labels    :
         caption: key
     Data_Journey:
         caption: summary
-        image  : https://jira.photobox.com/secure/viewavatar?size=xsmall&avatarId=13630&avatarType=issuetype
     Security_Controls:
         caption: summary
         image:  https://www.mediware.com/wp-content/uploads/Untitled-1-300x300.png
