@@ -1,4 +1,5 @@
 ---
+title        : Query Large
 type         : neo4j
 height       : 850
 relationships:
@@ -25,6 +26,9 @@ labels       :
         mass : 100
         size : 20
     Security_Test  :
+        mass : 100
+        size : 20
+    Data_Journey  :
         mass : 100
         size : 20
 ---
